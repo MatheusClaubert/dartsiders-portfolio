@@ -1,73 +1,49 @@
-document.addEventListener("scroll", function () {
-  const aboutSection = document.querySelector(".about p");
-  const sectionPosition = aboutSection.getBoundingClientRect().top;
-  const screenPosition = window.innerHeight / 1.2;
+document.addEventListener("DOMContentLoaded", () => {
+  const textElement = document.querySelector(".text-animation .highlight");
+  const words = ['Fullstack Developer'];
+  let currentWordIndex = 0;
+  let currentCharIndex = 0;
 
-  if (sectionPosition < screenPosition) {
-    aboutSection.classList.add("visible");
+  function typeWriter() {
+    if (currentCharIndex < words[currentWordIndex].length) {
+      textElement.textContent += words[currentWordIndex].charAt(currentCharIndex);
+      currentCharIndex++;
+      setTimeout(typeWriter, 100); // Velocidade de digitação
+    } else {
+      setTimeout(eraseWriter, 1500); // Pausa antes de apagar
+    }
   }
+
+  function eraseWriter() {
+    if (currentCharIndex > 0) {
+      textElement.textContent = words[currentWordIndex].substring(0, currentCharIndex - 1);
+      currentCharIndex--;
+      setTimeout(eraseWriter, 100); // Velocidade de apagamento
+    } else {
+      currentWordIndex = (currentWordIndex + 1) % words.length;
+      setTimeout(typeWriter, 500); // Pausa antes de recomeçar
+    }
+  }
+
+  typeWriter();
 });
-const colorPicker = document.getElementById("color-picker");
+document.addEventListener("DOMContentLoaded", () => {
+  const themeToggle = document.querySelector(".theme-toggle");
+  const body = document.body;
+  const lightIcon = document.getElementById("light-icon");
+  const darkIcon = document.getElementById("dark-icon");
 
-// Obtém a cor atual da variável CSS --main-color
-let currentColor = getComputedStyle(document.documentElement)
-  .getPropertyValue("--main-color")
-  .trim();
+  // Alternar o tema
+  themeToggle.addEventListener("click", () => {
+    body.classList.toggle("light-mode");
 
-// Neste if é feita a verificação se o valor esta em formato RGB e se for ele converte para HEX
-if (currentColor.startsWith("rgb")) {
-  currentColor = rgbToHex(currentColor);
-}
-
-// Aqui é definido o valor inicial do seletor de cor para o valor de --main-color no css
-colorPicker.value = currentColor;
-
-// Essa função converte valores RGB para formato HEX
-function rgbToHex(rgb) {
-  const rgbValues = rgb.match(/\d+/g).map(Number);
-  return (
-    "#" +
-    rgbValues
-      .map((val) => {
-        const hex = val.toString(16);
-        return hex.length === 1 ? "0" + hex : hex;
-      })
-      .join("")
-  );
-}
-
-// Adiciona o evento para atualizar a cor principal ao mudar o seletor
-colorPicker.addEventListener("input", (event) => {
-  const newColor = event.target.value;
-  document.documentElement.style.setProperty("--main-color", newColor);
-});
-
-let menuIcon = document.querySelector("#menu-icon");
-let navbar = document.querySelector(".navbar");
-let sections = document.querySelectorAll("section");
-let navLinks = document.querySelectorAll("header navbar a");
-
-window.onscroll = () => {
-  sections.forEach((sec) => {
-    let top = window.scrollY;
-    let offset = sec.offsetTop - 150;
-    let height = sec.offsetHeight;
-    let id = sec.getAttribute("id");
-
-    if (top >= offset && top < offset + height) {
-      navLinks.forEach((links) => {
-        links.classList.remove("active");
-        document
-          .querySelector("header navbar a[href*=" + id + "]")
-          .classList.add("active");
-      });
+    // Alterar visibilidade dos ícones
+    if (body.classList.contains("light-mode")) {
+      lightIcon.style.display = "none";
+      darkIcon.style.display = "block";
+    } else {
+      lightIcon.style.display = "block";
+      darkIcon.style.display = "none";
     }
   });
-};
-
-menuIcon.onclick = () => {
-  menuIcon.classList.toggle("bx-x");
-  navbar.classList.toggle("active");
-};
-
-
+});
