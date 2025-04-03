@@ -373,35 +373,50 @@ span {
 /* Cores específicas para cada tecnologia */
 .tech-icons .bxl-html5:hover {
   color: #E44D26;
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
 
 }
 
 .tech-icons .bxl-css3:hover {
   color: #1572B6;
-
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
 }
 
 .tech-icons .bxl-javascript:hover {
   color: #F7DF1E;
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
 
 }
 
 .tech-icons .bxl-react:hover {
   color: #61DAFB;
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
 
 }
 
-.tech-icons .bxl-nextjs:hover {
-  color: #000000;
+.tech-icons .bxl-aws:hover {
+  color: #FF9900;
+  /* aplique um efeito de crescer */
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
+
 
 }
 
 .tech-icons .bxl-github:hover {
-  color: #fffbfb;
+  color: #000000;
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
 }
 
 .tech-icons .bxl-tailwind-css:hover {
   color: #38B2AC;
+  transform: scale(1.4);
+  transition: transform 0.3s ease;
 }
 
 .education {
