@@ -1,49 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
   const textElement = document.querySelector(".text-animation .highlight");
-  const words = ['Fullstack Developer'];
+  if (!textElement) return; // Garante que o elemento existe
+
+  const words = ["Fullstack Developer"];
   let currentWordIndex = 0;
   let currentCharIndex = 0;
+  let isDeleting = false;
 
-  function typeWriter() {
-    if (currentCharIndex < words[currentWordIndex].length) {
-      textElement.textContent += words[currentWordIndex].charAt(currentCharIndex);
-      currentCharIndex++;
-      setTimeout(typeWriter, 100); // Velocidade de digitação
-    } else {
-      setTimeout(eraseWriter, 1500); // Pausa antes de apagar
-    }
-  }
-
-  function eraseWriter() {
-    if (currentCharIndex > 0) {
-      textElement.textContent = words[currentWordIndex].substring(0, currentCharIndex - 1);
+  function typeEffect() {
+    const currentWord = words[currentWordIndex];
+    if (isDeleting) {
       currentCharIndex--;
-      setTimeout(eraseWriter, 100); // Velocidade de apagamento
     } else {
-      currentWordIndex = (currentWordIndex + 1) % words.length;
-      setTimeout(typeWriter, 500); // Pausa antes de recomeçar
+      currentCharIndex++;
     }
+
+    textElement.textContent = currentWord.substring(0, currentCharIndex);
+
+    let typingSpeed = isDeleting ? 50 : 100; // Mais rápido ao apagar
+    if (!isDeleting && currentCharIndex === currentWord.length) {
+      typingSpeed = 1500; // Pausa após digitação completa
+      isDeleting = true;
+    } else if (isDeleting && currentCharIndex === 0) {
+      isDeleting = false;
+      currentWordIndex = (currentWordIndex + 1) % words.length;
+      typingSpeed = 500; // Pausa antes de começar a digitar
+    }
+
+    setTimeout(typeEffect, typingSpeed);
   }
 
-  typeWriter();
+  typeEffect();
 });
-document.addEventListener("DOMContentLoaded", () => {
-  const themeToggle = document.querySelector(".theme-toggle");
-  const body = document.body;
-  const lightIcon = document.getElementById("light-icon");
-  const darkIcon = document.getElementById("dark-icon");
+document.addEventListener("DOMContentLoaded", function () {
+  const timeline = document.querySelector(".timeline-items");
+  const line = document.querySelector(".timeline-items::before");
 
-  // Alternar o tema
-  themeToggle.addEventListener("click", () => {
-    body.classList.toggle("light-mode");
-
-    // Alterar visibilidade dos ícones
-    if (body.classList.contains("light-mode")) {
-      lightIcon.style.display = "none";
-      darkIcon.style.display = "block";
-    } else {
-      lightIcon.style.display = "block";
-      darkIcon.style.display = "none";
+  if (timeline && line) {
+    const firstItem = timeline.firstElementChild;
+    const lastItem = timeline.lastElementChild;
+    
+    if (firstItem && lastItem) {
+      const start = firstItem.offsetTop;
+      const end = lastItem.offsetTop + lastItem.offsetHeight;
+      line.style.height = `${end - start}px`;
     }
-  });
+  }
 });
